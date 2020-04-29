@@ -12,11 +12,9 @@ se_koliko_twoway = 0
 
 twoway = 0
 
-win_bhip = False
+win_bhip = 1
 
-'''
-BBBB ' 10 free spinov x2 multi
-'''
+
 
 
 global beseda, izzrebana_beseda, izzrebana1, izzrebana2, izzrebana3, izzrebana4
@@ -25,7 +23,7 @@ global beseda, izzrebana_beseda, izzrebana1, izzrebana2, izzrebana3, izzrebana4
 def igraj2():
     #Za test#
     global beseda, win_bhip
-    win_bhip = True
+    win_bhip = 1
     beseda = 'BHIP'
     return (beseda)
 
@@ -34,7 +32,7 @@ def igraj():
     global krediti, rezultat, beseda, win_bhip, free_spini, spin_value
     global multi, se_koliko_multi_1_5, se_koliko_twoway
     
-    win_bhip = True
+    win_bhip = 1
 
     
     simbol = 'X'
@@ -46,36 +44,51 @@ def igraj():
     #beseda = 'PPPP'
 
     if beseda[0:4] == 'BHIP':
-        krediti += 200*spin_value*multi
-        win_bhip = True
+        krediti += 150*spin_value*multi
+        win_bhip = 1
         #print ('Pa saj je win')
+
+    if beseda[0:4] != 'BHIP' and beseda[0:3] == 'BHI':
+        krediti += 15*spin_value*multi
+        win_bhip = 3
+
+    if beseda[0:4] == 'HIPI':
+        krediti += 4*spin_value*multi
+        win_bhip = 2
+
+    if beseda[0:4] == 'HIHI':
+        krediti += 3*spin_value*multi
+        win_bhip = 2
         
     if beseda[0:4] == 'BBBB':
-        free_spini += 10
+        free_spini += 11
         multi = 1.5
         se_koliko_multi_1_5 = 10
+        win_bhip = 4
 
     if beseda[0:4] == 'HHHH':
-        free_spini += 15
+        free_spini += 16
         multi = 1
+        win_bhip = 5
 
     if beseda[0:4] == 'IIII':
-        free_spini += 10
+        free_spini += 11
         multi = 1
+        win_bhip = 6
 
     if beseda[0:4] == 'PPPP':
-        se_koliko_twoway += 12
+        se_koliko_twoway += 11
         multi = 1
+        win_bhip = 7
 
     elif beseda[0:4] == 'PIHB' and se_koliko_twoway > 0:
-        krediti += 200*spin_value*multi
-        win_bhip = True
+        krediti += 150*spin_value*multi
+        win_bhip = 1
         #print ('Pa saj je win')
-        
-    
+           
         
     else:
-        win_bhip = False
+        win_bhip = 0
         
 
     if free_spini == 0:
@@ -103,6 +116,10 @@ def igraj():
 
     return (beseda)
     return (krediti)
+
+def multiplay(n):
+    for i in range(n):
+        igraj()
 
 def multi(n):
     #rtp = 0

@@ -12,11 +12,9 @@ se_koliko_twoway = 0
 
 twoway = 0
 
-win_bhip = False
+win_bhip = 1
 
-'''
-BBBB ' 10 free spinov x2 multi
-'''
+
 
 
 global beseda, izzrebana_beseda, izzrebana1, izzrebana2, izzrebana3, izzrebana4
@@ -25,7 +23,7 @@ global beseda, izzrebana_beseda, izzrebana1, izzrebana2, izzrebana3, izzrebana4
 def igraj2():
     #Za test#
     global beseda, win_bhip
-    win_bhip = True
+    win_bhip = 1
     beseda = 'BHIP'
     return (beseda)
 
@@ -34,7 +32,7 @@ def igraj():
     global krediti, rezultat, beseda, win_bhip, free_spini, spin_value
     global multi, se_koliko_multi_1_5, se_koliko_twoway
     
-    win_bhip = True
+    win_bhip = 1
 
     
     simbol = 'X'
@@ -46,36 +44,51 @@ def igraj():
     #beseda = 'PPPP'
 
     if beseda[0:4] == 'BHIP':
-        krediti += 200*spin_value*multi
-        win_bhip = True
+        krediti += 150*spin_value*multi
+        win_bhip = 1
         #print ('Pa saj je win')
+
+    if beseda[0:4] != 'BHIP' and beseda[0:3] == 'BHI':
+        krediti += 15*spin_value*multi
+        win_bhip = 3
+
+    if beseda[0:4] == 'HIPI':
+        krediti += 4*spin_value*multi
+        win_bhip = 2
+
+    if beseda[0:4] == 'HIHI':
+        krediti += 3*spin_value*multi
+        win_bhip = 2
         
     if beseda[0:4] == 'BBBB':
-        free_spini += 10
+        free_spini += 11
         multi = 1.5
         se_koliko_multi_1_5 = 10
+        win_bhip = 4
 
     if beseda[0:4] == 'HHHH':
-        free_spini += 15
+        free_spini += 16
         multi = 1
+        win_bhip = 5
 
     if beseda[0:4] == 'IIII':
-        free_spini += 10
+        free_spini += 11
         multi = 1
+        win_bhip = 6
 
     if beseda[0:4] == 'PPPP':
-        se_koliko_twoway += 10
+        se_koliko_twoway += 11
         multi = 1
+        win_bhip = 7
 
     elif beseda[0:4] == 'PIHB' and se_koliko_twoway > 0:
-        krediti += 200*spin_value*multi
-        win_bhip = True
+        krediti += 150*spin_value*multi
+        win_bhip = 1
         #print ('Pa saj je win')
-        
-    
+           
         
     else:
-        win_bhip = False
+        win_bhip = 0
         
 
     if free_spini == 0:
@@ -151,9 +164,23 @@ izzrebana_beseda = 'Zavrti in poglej, ali je BHIP zlata jama'
 def osvezi_prikaz_besede():
     global win_bhip
     time.sleep(0.5)
-    if win_bhip == True:
-        slot_izpis['text'] = 'WIN WIN WIN'
-    elif win_bhip == False:
+    if win_bhip == 1:
+        slot_izpis['text'] = 'P L A T I N U M   B H I P'
+    elif win_bhip == 2:
+        slot_izpis['text'] = 'Win'
+    elif win_bhip == 3:
+        slot_izpis['text'] = 'Win'
+    elif win_bhip == 4:
+        slot_izpis['text'] = '10 NOVIH POTENCIALNIH ZVEZDIC'
+    elif win_bhip == 5:
+        slot_izpis['text'] = 'ZASTONJ PAKET INDIGOV'
+    elif win_bhip == 6:
+        slot_izpis['text'] = 'ZASTONJ PAKET THE BAR'
+    elif win_bhip == 7:
+        slot_izpis['text'] = 'ZASTONJ PAKET FUSION'
+
+        
+    elif win_bhip == 0:
         motivacija = random.choice('abcdefghijklmnopqrstuvwxyz1234567890')
         if motivacija == 'a':
             slot_izpis['text'] = 'Še malo se potrudi za novo zvezdico'
@@ -176,7 +203,7 @@ def osvezi_prikaz_besede():
         elif motivacija == 'j':
             slot_izpis['text'] = 'Mamo velik produktov, ampak za erektilno disfunkcijo pa žal ne'
         elif motivacija == 'k':
-            slot_izpis['text'] = 'INDIGOOOO TE NAHAJPA'
+            slot_izpis['text'] = 'Indigo te nahajpaaa'
         elif motivacija == 'l':
             slot_izpis['text'] = 'Tale tip je pa Lamborghinija dubu na eventu'
         elif motivacija == 'm':
@@ -190,7 +217,7 @@ def osvezi_prikaz_besede():
         elif motivacija == 'q':
             slot_izpis['text'] = 'Ne jem bureka'
         elif motivacija == 'r':
-            slot_izpis['text'] = 'Čau bau Aneja'
+            slot_izpis['text'] = 'Čau bau Aneja :P'
         elif motivacija == 's':
             slot_izpis['text'] = 'A se kej kavsa na teh zabavah?'
         elif motivacija == 't':
@@ -332,10 +359,57 @@ def nov_spin():
     osvezi_prikaz_multiplier()
     osvezi_prikaz_twoway()
 
-    
+
+
+
+pomoc = tk.Tk()
+pomoc.geometry('425x375')
+pomoc.title('Navodila')
+pomoc.configure(bg = 'RoyalBlue4')
+
+naslov_dobitki = tk.Label(pomoc, font = ("TkDefaultFont", 20), bg = 'RoyalBlue4', fg = 'gold', text = 'Dobitki:')
+naslov_dobitki.pack()
+
+preglednost12 = tk.Label(pomoc, bg = 'RoyalBlue4')
+preglednost12.pack()
+
+pravila = tk.Frame(pomoc)
+pravila.pack()
+
+dobitki = tk.Label(pravila, font = ("TkDefaultFont", 16), justify= tk.LEFT, bg = 'RoyalBlue4', fg = 'gold', text = '''BHIP    150x
+BHIx     15x
+HIPI      4x
+HIHI      3x''')
+dobitki.pack()
+
+preglednost11 = tk.Label(pomoc, bg = 'RoyalBlue4')
+preglednost11.pack()
+
+pravila2 = tk.Frame(pomoc)
+pravila2.pack()
+
+dobitki_free = tk.Label(pravila2, font = ("TkDefaultFont", 13), justify= tk.LEFT, bg = 'RoyalBlue4', fg = 'white', text = '''BBBB     10x free spin @ 1.5x multiplier
+HHHH     15x free spin
+IIII          10x free spin
+PPPP     10x two-way spin (PIHB tudi win 150x)''')
+dobitki_free.pack()
+
+preglednost8 = tk.Label(pomoc, bg = 'RoyalBlue4')
+preglednost8.pack()
+
+preglednost9 = tk.Label(pomoc, bg = 'RoyalBlue4')
+preglednost9.pack()
+
+preglednost10 = tk.Label(pomoc, bg = 'RoyalBlue4')
+preglednost10.pack()
+
+rtp = tk.Label(pomoc, font = ("TkDefaultFont", 10), bg = 'RoyalBlue4', fg= 'white', text = 'RTP: 97,5%')
+rtp.pack()
+
+
 
 okno = tk.Tk()
-okno.geometry('500x650')
+okno.geometry('520x650')
 okno.title('b:hip zlata jama')
 okno.configure(bg = 'cornflowerblue')
 
